@@ -85,7 +85,7 @@ pub(crate) fn exec(mut contents: Document) {
 		Commands::Bump { bump, dry_run } => {
 			let new_version = do_bump(bump.unwrap_or(Bump::Patch), &version);
 			if !dry_run {
-				let new_version = Item::Value(Value::String(Formatted::new(new_version)));
+				let new_version = Item::Value(Value::String(Formatted::new(new_version.clone())));
 
 				// We got this before...
 				let package = contents.get_mut("package").unwrap().as_table_mut().unwrap();
@@ -94,6 +94,7 @@ pub(crate) fn exec(mut contents: Document) {
 				let mut file = File::options().write(true).truncate(true).open(CARGO_TOML).expect("Error: failed to open cargo file for write.");
 				write!(file, "{contents}").expect("Error: failed to write cargo file.");
 			}
+			println!("{new_version}");
 		}
 	}
 }
