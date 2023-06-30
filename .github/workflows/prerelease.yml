@@ -25,6 +25,10 @@ jobs:
         run: cargo test
       - name: bump version
         run: cargo run -- bump prerelease
+      - name: update readme
+        run: |
+          cargo install cargo-readme
+          cargo readme > README.md
       # Building a multiline commit message
       - run: echo "prerelease of $(cargo run -- get)" >> commitmessage.txt
       - run: echo "[no ci]" >> commitmessage.txt

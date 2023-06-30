@@ -3,6 +3,8 @@
  * governed by the Apache-2.0 license that can be found in the LICENSE file.
  */
 
+//! [![build-status](https://github.com/ddumont/cargo-semver-tool/actions/workflows/prerelease.yml/badge.svg)](https://github.com/ddumont/cargo-semver-tool/actions/workflows/prerelease.yml)
+//!
 //! Update the version of your rust project!
 //!
 //! # Getting Started
