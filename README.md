@@ -1,5 +1,7 @@
 # cargo-semver-tool
 
+[![build-status](https://github.com/ddumont/cargo-semver-tool/actions/workflows/prerelease.yml/badge.svg)](https://github.com/ddumont/cargo-semver-tool/actions/workflows/prerelease.yml)
+
 Update the version of your rust project!
 
 ## Getting Started
