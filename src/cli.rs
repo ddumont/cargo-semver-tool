@@ -57,7 +57,7 @@ enum Commands {
 	},
 }
 
-pub fn exec(mut contents: Document) {
+pub(crate) fn exec(mut contents: Document) {
 	let version = {
 		if let Some(pkg) = contents.get("package") {
 			pkg.get("version")
