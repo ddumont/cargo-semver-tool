@@ -1,0 +1,22 @@
+excludes:
+  -
+licenses:
+  - files: ".+[.]rs$"
+    ident: Apache-2.0
+    authors:
+      - name: Dan Dumont
+    template: | # https://opensource.stackexchange.com/questions/5778/why-do-licenses-such-as-the-mit-license-specify-a-single-year
+      © Copyright [name of author] [year]. All rights reserved. Use of
+      this source code is governed by the [ident] license that can be
+      found in the LICENSE file.
+    columns: 80
+comments:
+  - columns: 80
+    extension:
+      - rs
+    commenter:
+      type: block
+      start_block_char: "/*\n"
+      end_block_char: " */"
+      per_line_char: " *"
+      trailing_lines: 2

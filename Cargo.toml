@@ -1,0 +1,20 @@
+[package]
+name = "cargo-semver-tool"
+version = "0.1.0"
+edition = "2021"
+description = "A cargo command to help you version your rust project similar to npm-version"
+license = "Apache-2.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "cargo-semver"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4.3.8", features = ["derive"] }
+semver = "1.0.17"
+toml_edit = "0.19.11"
+
+[profile.release]
+opt-level = 'z'
