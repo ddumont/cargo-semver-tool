@@ -1,9 +1,12 @@
 ---
-name: release
-on: workflow_dispatch
+name: pre-release
+on:
+  push:
+    branches:
+      - master
 jobs:
   pre-release:
-    name: release
+    name: pre-release
     runs-on: ubuntu-latest
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
@@ -21,9 +24,9 @@ jobs:
       - name: test
         run: cargo test
       - name: bump version
-        run: cargo run -- bump release
+        run: cargo run -- bump prerelease
       # Building a multiline commit message
-      - run: echo "release of $(cargo run -- get)" >> commitmessage.txt
+      - run: echo "prerelease of $(cargo run -- get)" >> commitmessage.txt
       - run: echo "[no ci]" >> commitmessage.txt
 
       # Create a multiline string to be used by the git-auto-commit Action
@@ -45,6 +48,3 @@ jobs:
         with:
           tagging_message: v${{ steps.tag_message_step.outputs.tag_message }}
           commit_message: ${{ steps.commit_message_step.outputs.commit_message }}
-      - uses: katyo/publish-crates@v2
-        with:
-          registry-token: ${{ secrets.CARGO_TOKEN }}
