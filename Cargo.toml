@@ -1,6 +1,6 @@
 [package]
 name = "cargo-semver-tool"
-version = "0.1.1-0"
+version = "0.1.1-1"
 edition = "2021"
 description = "A cargo command to help you version your rust project similar to npm-version"
 license = "Apache-2.0"
