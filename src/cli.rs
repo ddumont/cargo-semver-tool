@@ -87,6 +87,9 @@ pub(crate) fn exec(contents: Document) {
 	match Cli::parse_from(args).command {
 		Commands::Get => println!("{version}"),
 		Commands::Set { version } => {
+			let _ = Version::parse(&version)
+				.expect(format!("Error: version ({version}) is not valid semver").as_str());
+
 			write_version(contents, &version);
 			println!("{version}");
 		}
