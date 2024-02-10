@@ -15,7 +15,7 @@ path = "src/main.rs"
 [dependencies]
 clap = { version = "4.3.8", features = ["derive"] }
 semver = "1.0.17"
-toml_edit = "0.19.11"
+toml_edit = { version = "0.22", default-features = false, features = ["parse", "display"] }
 
 [profile.release]
 opt-level = 'z'
