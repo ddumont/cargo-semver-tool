@@ -55,9 +55,13 @@ enum Commands {
 		#[arg(default_value = "false", short = 'd', long = "dry-run", help = "Display only, do not write the file")]
 		dry_run: bool
 	},
+	#[command(about = "Set the project's version to a specific version")]
+	Set {
+		version: String
+	},
 }
 
-pub(crate) fn exec(mut contents: Document) {
+pub(crate) fn exec(contents: Document) {
 	let version = {
 		if let Some(pkg) = contents.get("package") {
 			pkg.get("version")
@@ -82,21 +86,32 @@ pub(crate) fn exec(mut contents: Document) {
 
 	match Cli::parse_from(args).command {
 		Commands::Get => println!("{version}"),
+		Commands::Set { version } => {
+			let _ = Version::parse(&version)
+				.expect(format!("Error: version ({version}) is not valid semver").as_str());
+
+			write_version(contents, &version);
+			println!("{version}");
+		}
 		Commands::Bump { bump, dry_run } => {
 			let new_version = do_bump(bump.unwrap_or(Bump::Patch), &version);
 			if !dry_run {
-				let new_version = Item::Value(Value::String(Formatted::new(new_version.clone())));
-
-				// We got this before...
-				let package = contents.get_mut("package").unwrap().as_table_mut().unwrap();
-				package.insert("version", new_version);
-
-				let mut file = File::options().write(true).truncate(true).open(CARGO_TOML).expect("Error: failed to open cargo file for write.");
-				write!(file, "{contents}").expect("Error: failed to write cargo file.");
+				write_version(contents, &new_version);
 			}
 			println!("{new_version}");
 		}
 	}
+}
+
+fn write_version(mut contents: Document, new_version: &str) {
+	let new_version = Item::Value(Value::String(Formatted::new(new_version.to_string())));
+
+    // We got this before...
+    let package = contents.get_mut("package").unwrap().as_table_mut().unwrap();
+    package.insert("version", new_version);
+
+    let mut file = File::options().write(true).truncate(true).open(CARGO_TOML).expect("Error: failed to open cargo file for write.");
+    write!(file, "{contents}").expect("Error: failed to write cargo file.");
 }
 
 fn do_bump(kind: Bump, version: &str) -> String {
